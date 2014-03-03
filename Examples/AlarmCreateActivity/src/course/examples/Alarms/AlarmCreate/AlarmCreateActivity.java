@@ -26,7 +26,7 @@ public class AlarmCreateActivity extends Activity {
 
 		setContentView(R.layout.main);
 
-		// Get the AlarmManager Service
+		// Get the AlarmManager Service test
 		mAlarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
 
 		// Create PendingIntent to start the AlarmNotificationReceiver
