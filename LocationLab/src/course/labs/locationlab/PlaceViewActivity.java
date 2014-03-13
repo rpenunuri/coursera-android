@@ -17,7 +17,6 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -71,14 +70,15 @@ public class PlaceViewActivity extends ListActivity implements LocationListener 
 				
 					if(!mAdapter.intersects(mLastLocationReading)) { 
 						log("Starting Place Download");
-						new PlaceDownloaderTask(this).execute(mLastLocationReading);
+						new PlaceDownloaderTask(PlaceViewActivity.this).execute(mLastLocationReading);
 					} else {
 						log("You already have this location badge");
-					}
-				
+						Toast.makeText(getApplicationContext(), "The current location has been seen before", Toast.LENGTH_LONG).show();
+					}				
 				} else {
 					log("Location data is not available");
-				}
+					return;
+				} 
 				
 				
 								
@@ -158,7 +158,11 @@ public class PlaceViewActivity extends ListActivity implements LocationListener 
         // the current location
         // 3) If the current location is newer than the last locations, keep the
         // current location.
-
+		if(mLastLocationReading == null) {
+			mLastLocationReading = currentLocation;
+		}else if (age(currentLocation) < age (mLastLocationReading)) { 
+			mLastLocationReading = currentLocation;
+		}
 
 	}
 
